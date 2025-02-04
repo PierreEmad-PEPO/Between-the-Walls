@@ -5,35 +5,25 @@ using UnityEngine;
 
 public class LightingManager : MonoBehaviour
 {
-    List<Light> directionalLights = new List<Light>();
-    List<Light> pointLights = new List<Light>();
-    List<Light> spotLights = new List<Light>();
-    Dictionary<Light, float> defaultIntensity = 
+    [SerializeField] private float time = 1;
+    private List<Light> directionalLights = new List<Light>();
+    private List<Light> pointLights = new List<Light>();
+    private List<Light> spotLights = new List<Light>();
+    private Dictionary<Light, float> defaultIntensity = 
         new Dictionary<Light, float>();
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        FindAllLights();
-
-    }
-
-    // Update is called once per frame
-    void Update()
+    private void Start() =>FindAllLights();
+    
+    private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
-        {
-            TurnOffLights(LightType.Point, 1);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            TurnOnLights(LightType.Point, 1);
-        }
+            TurnOffLights(LightType.Point);
+        
+        if (Input.GetKeyUp(KeyCode.LeftShift))     
+            TurnOnLights(LightType.Point);      
     }
 
-    void FindAllLights()
+    private void FindAllLights()
     {
         Light[] allLights = FindObjectsByType<Light>(FindObjectsSortMode.None);
 
@@ -46,23 +36,25 @@ public class LightingManager : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeIntensity(List<Light> lights, float target, float time)
+    private IEnumerator ChangeIntensity(List<Light> lights, float target)
     {
         foreach (Light light in lights)
         {
-            StartCoroutine(ChangeIntensity(light, light.intensity, target, time));
+            StartCoroutine(ChangeIntensity(light, light.intensity, target));
         }
         yield return null;
     }
-    IEnumerator RestoreIntensity(List<Light> lights, float time)
+
+    private IEnumerator RestoreIntensity(List<Light> lights)
     {
         foreach (Light light in lights)
         {
-            StartCoroutine(ChangeIntensity(light, light.intensity, defaultIntensity[light], time));
+            StartCoroutine(ChangeIntensity(light, light.intensity, defaultIntensity[light]));
         }
         yield return null;
     }
-    IEnumerator ChangeIntensity(Light light, float from, float target,float time)
+
+    private IEnumerator ChangeIntensity(Light light, float from, float target)
     {
         float elapsedTime = 0;
         while (elapsedTime < time)
@@ -74,7 +66,7 @@ public class LightingManager : MonoBehaviour
         light.intensity = target;
     }
 
-    public void TurnOffLights(LightType type, float time)
+    private void TurnOffLights(LightType type)
     {
         List<Light> lightsToAffect = directionalLights;
         switch (type)
@@ -89,10 +81,10 @@ public class LightingManager : MonoBehaviour
                 lightsToAffect = spotLights;
                 break;
         }
-
-        StartCoroutine(ChangeIntensity(lightsToAffect, 0, time));
+        StartCoroutine(ChangeIntensity(lightsToAffect, 0));
     }
-    public void TurnOnLights(LightType type, float time)
+
+    private void TurnOnLights(LightType type)
     {
         List<Light> lightsToAffect = directionalLights;
         switch (type)
@@ -107,9 +99,6 @@ public class LightingManager : MonoBehaviour
                 lightsToAffect = spotLights;
                 break;
         }
-
-        StartCoroutine(RestoreIntensity(lightsToAffect, time));
-    }
-
-    
+        StartCoroutine(RestoreIntensity(lightsToAffect));
+    } 
 }
