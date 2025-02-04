@@ -12,8 +12,18 @@ public class LightingManager : MonoBehaviour
     private Dictionary<Light, float> defaultIntensity = 
         new Dictionary<Light, float>();
 
+    public static LightingManager Instance { get; private set; }
+
     private void Start() =>FindAllLights();
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space))
