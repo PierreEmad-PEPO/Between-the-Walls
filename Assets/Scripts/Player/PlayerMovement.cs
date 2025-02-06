@@ -9,10 +9,12 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private bool isGrounded;
     private Vector3 velocity;
+    private AudioPlayer audioPlayer;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        audioPlayer = GetComponent<AudioPlayer>();
     }
 
     void Update()
@@ -20,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = controller.isGrounded;
 
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f;
+            //audioPlayer.PlaySoundEffect(SoundEffects.Land); to be added
+        }
 
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
@@ -29,8 +34,13 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(moveSpeed * Time.deltaTime * move);
 
         if (isGrounded && Input.GetButtonDown("Jump"))
+        {
             velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
-        
+            //audioPlayer.PlaySoundEffect(SoundEffects.Jump); to be added
+        }
+        if (move.magnitude > 0.1f && isGrounded)
+            audioPlayer.PlaySoundEffect(SoundEffects.Footsteps);
+
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
