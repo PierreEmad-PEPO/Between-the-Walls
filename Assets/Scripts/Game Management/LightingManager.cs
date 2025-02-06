@@ -1,31 +1,29 @@
 using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class LightingManager : MonoBehaviour
 {
-    [SerializeField] float minFlickerDelay = 0f;
-    [SerializeField] float maxFlickerDelay = 0.2f;
-    [SerializeField] SerializedDictionary<RoomNames, List<Light>>
+    [SerializeField] private float minFlickerDelay = 0f;
+    [SerializeField] private float maxFlickerDelay = 0.2f;
+    [SerializeField] private SerializedDictionary<RoomNames, List<Light>>
         lightsDic = new SerializedDictionary<RoomNames, List<Light>>();
 
-    Dictionary<Light, float> defaultIntensity
+    private Dictionary<Light, float> defaultIntensity
         = new Dictionary<Light, float>();
-    Dictionary<Light, Color> defaultColor = new Dictionary<Light, Color>();
-    Dictionary<Light, bool> isFlickering = new Dictionary<Light, bool>();
+    private Dictionary<Light, Color> defaultColor = new Dictionary<Light, Color>();
+    private Dictionary<Light, bool> isFlickering = new Dictionary<Light, bool>();
 
     public static LightingManager Instance { get; private set; }
 
     private void Start()
     {
         GetAllLights();
-
         StartFlicker(RoomNames.Room1);
     }
 
-    void GetAllLights()
+    private void GetAllLights()
     {
         Light[] allLights = FindObjectsByType<Light>(FindObjectsSortMode.None);
 
