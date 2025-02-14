@@ -46,14 +46,16 @@ public class Inventory : MonoBehaviour
         slot.GetComponent<Image>().sprite = item.icon;
     }
 
-    void AddItem(InventoryItemSO item)
+    public void AddItem(InventoryItemSO item)
     {
         inventorySO.AddItem(item);
+        UpdateInventroyUI();
     }
 
-    void RemoveItem(InventoryItemSO item)
+    public void RemoveItem(InventoryItemSO item)
     {
         inventorySO.RemoveItem(item);
+        UpdateInventroyUI();
     }
 
     bool HasItem(InventoryItemSO item)
