@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "InventorySO", menuName = "Scriptable Objects/InventorySO")]
 public class InventorySO : ScriptableObject
 {
-    private List<InventoryItemSO> items = new List<InventoryItemSO>();
+    [SerializeField] private List<InventoryItemSO> items = new List<InventoryItemSO>();
 
     public List<InventoryItemSO> GetItems { get { return items; } }
 

@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        
+        UpdateInventroyUI();
     }
 
     void UpdateInventroyUI()
@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < inventoryParent.childCount; i++)
         {
-            Destroy(inventoryParent.GetChild(i));
+            Destroy(inventoryParent.GetChild(i).gameObject);
         }
 
         List<InventoryItemSO> inv = inventorySO.GetItems;

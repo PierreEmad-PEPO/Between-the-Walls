@@ -3,6 +3,7 @@ using UnityEngine;
 public class PickupInteractable : BaseInteractable
 {
     [SerializeField] InventoryItemSO itemSO;
+
     public override void OnInteract()
     {
         base.OnInteract();
@@ -10,6 +11,9 @@ public class PickupInteractable : BaseInteractable
         Inventory.Instance.AddItem(itemSO);
         canvas.SetActive(false);
         Destroy(gameObject);
+
+        // play player animation and freeze player movements while animation is running 
+        // play interaction sound
     }
 
     public override void OnPlayerEnter()

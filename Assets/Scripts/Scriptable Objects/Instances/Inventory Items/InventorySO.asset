@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a3a62eb47987644916137af1dab2eb, type: 3}
   m_Name: InventorySO
   m_EditorClassIdentifier: 
+  items: []
