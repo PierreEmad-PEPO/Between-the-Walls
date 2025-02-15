@@ -1,12 +1,17 @@
 using TMPro;
 using UnityEngine;
 
+
 public class BaseInteractable : MonoBehaviour, IInteractable
 {
-    [SerializeField] protected GameObject canvas;
-    [SerializeField] protected TextMeshProUGUI canvasText;
     [SerializeField] protected string message;
-    [SerializeField] protected Vector3 offSite;
+    [SerializeField] protected string hintMessage;
+    [SerializeField] protected Vector3 offset;
+    [SerializeField] protected bool isLocked = false;
+
+    public bool IsLocked { get { return isLocked; } }
+
+
     public virtual void OnInteract()
     {
 
@@ -14,15 +19,26 @@ public class BaseInteractable : MonoBehaviour, IInteractable
 
     public virtual void OnPlayerEnter()
     {
-        canvasText.text = message;
-        canvas.transform.position = transform.position + offSite;
-        canvas.SetActive(true);
+        if (!isLocked)
+            InteractorCanvas.Instance.OpenCanvas(message, transform.position + offset);
+        else
+            InteractorCanvas.Instance.OpenLockedMessage(hintMessage, transform.position + offset);
     }
 
     public virtual void OnPlayerExit()
     {
-        canvas.SetActive(false);
+        InteractorCanvas.Instance.CloseCanvas();
+    }
+    public virtual void AllowInteraction()
+    {
+        isLocked = false;
     }
 
+    public virtual void LockInteraction()
+    {
+        isLocked = true;
+    }
+
+   
    
 }

@@ -14,7 +14,7 @@ public class Interactor : MonoBehaviour
 
     private void Interact()
     {
-        if (currentInteractable == null) return;
+        if (currentInteractable == null || currentInteractable.IsLocked) return;
 
         currentInteractable.OnInteract();
     }
