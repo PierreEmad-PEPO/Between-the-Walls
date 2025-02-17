@@ -7,14 +7,14 @@ public class BaseInteractable : MonoBehaviour, IInteractable
     [SerializeField] protected string message;
     [SerializeField] protected string hintMessage;
     [SerializeField] protected Vector3 offset;
-    [SerializeField] protected bool isLocked = false;
+    [SerializeField] protected bool isLocked = false; // should to be saved saved in CSV or Json
 
     public bool IsLocked { get { return isLocked; } }
 
 
     public virtual void OnInteract()
     {
-
+        GetInstanceID();
     }
 
     public virtual void OnPlayerEnter()
