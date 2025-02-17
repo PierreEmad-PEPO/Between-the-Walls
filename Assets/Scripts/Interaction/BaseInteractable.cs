@@ -14,7 +14,7 @@ public class BaseInteractable : MonoBehaviour, IInteractable
 
     public virtual void OnInteract()
     {
-        GetInstanceID();
+        
     }
 
     public virtual void OnPlayerEnter()
