@@ -7,6 +7,7 @@ public class InteractorCanvas : MonoBehaviour
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected TextMeshProUGUI canvasText;
     [SerializeField] protected Image image;
+    private Transform playerCamera;
 
     public static InteractorCanvas Instance;
 
@@ -16,8 +17,20 @@ public class InteractorCanvas : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
-
+        playerCamera = FindAnyObjectByType<PlayerCamera>().transform;
         CloseCanvas();
+    }
+
+    private void OnEnable()
+        => playerCamera = FindAnyObjectByType<PlayerCamera>().transform;
+
+    void Update()
+    {
+        if (playerCamera != null)
+        {
+            transform.LookAt(playerCamera);
+            transform.rotation = Quaternion.LookRotation(transform.position - playerCamera.position);
+        }
     }
 
     public void OpenCanvas(string message, Vector3 position)
@@ -36,8 +49,5 @@ public class InteractorCanvas : MonoBehaviour
         canvas.SetActive(true);
     }
 
-    public void CloseCanvas()
-    {
-        canvas.SetActive(false);
-    }
+    public void CloseCanvas()=>canvas.SetActive(false);   
 }
